@@ -1,0 +1,1 @@
+<h1>Book store with Laravel and DDD</h1>
