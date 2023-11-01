@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->mediumText('description');
             $table->smallInteger('pages');
+            $table->date('publish_date');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

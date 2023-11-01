@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('authors', function (Blueprint $table) {
+        Schema::create('book_genre', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->string('first_name');
-            $table->string('second_name');
-            $table->date('birth_date');
-            $table->mediumText('bio');
+            $table->foreignUuid('book_uuid')->constrained('books', 'uuid', 'book_genre');
+            $table->foreignUuid('genre_uuid')->constrained('genres', 'uuid', 'genre_book');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('authors');
+        Schema::dropIfExists('book_genre');
     }
 };
