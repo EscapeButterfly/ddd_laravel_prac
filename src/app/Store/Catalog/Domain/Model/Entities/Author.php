@@ -13,21 +13,23 @@ use App\Store\Common\Domain\Entity;
 class Author extends Entity
 {
     public function __construct(
-        public ?string $uuid,
-        public readonly FirstName $firstName,
+        public ?string             $uuid,
+        public readonly FirstName  $firstName,
         public readonly SecondName $secondName,
-        public readonly BirthDate $birthDate,
-        public readonly Biography $biography
-    ){}
+        public readonly BirthDate  $birthDate,
+        public readonly Biography  $biography
+    )
+    {
+    }
 
     public function toArray(): array
     {
         return [
-            'uuid' => $this->uuid,
-            'first_name' => $this->firstName,
+            'uuid'        => $this->uuid,
+            'first_name'  => $this->firstName,
             'second_name' => $this->secondName,
-            'birth_date' => $this->birthDate,
-            'bio' => $this->biography
+            'birth_date'  => $this->birthDate,
+            'bio'         => $this->biography
         ];
     }
 }

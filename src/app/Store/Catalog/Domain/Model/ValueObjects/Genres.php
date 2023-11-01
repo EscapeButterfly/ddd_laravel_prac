@@ -17,12 +17,12 @@ final class Genres extends ValueObjectArray
         $this->genres = array_values($genres);
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return implode(', ', $this->genres);
     }
 
-    public function toArray() : array
+    public function toArray(): array
     {
         return $this->genres;
     }

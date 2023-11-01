@@ -10,8 +10,10 @@ class Genre extends Entity
 {
     public function __construct(
         public readonly ?string $uuid,
-        public readonly string $genre
-    ) {}
+        public readonly string  $genre
+    )
+    {
+    }
 
     public function toArray(): array
     {

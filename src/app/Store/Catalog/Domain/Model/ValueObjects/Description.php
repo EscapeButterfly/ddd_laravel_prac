@@ -15,12 +15,12 @@ final class Description extends ValueObject
         $this->description = $description;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->description;
     }
 
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return $this->description;
     }

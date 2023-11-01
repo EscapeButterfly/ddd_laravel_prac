@@ -17,28 +17,29 @@ use App\Store\Common\Domain\AggregateRoot;
 class Book extends AggregateRoot
 {
     public function __construct(
-        public readonly ?string $uuid,
-        public readonly Title $title,
-        public readonly Isbn $isbn,
+        public readonly ?string     $uuid,
+        public readonly Title       $title,
+        public readonly Isbn        $isbn,
         public readonly Description $description,
-        public readonly Pages $pages,
+        public readonly Pages       $pages,
         public readonly PublishDate $publishDate,
-        public readonly Genres $genres,
-        public readonly Author $author
-    ) {
+        public readonly Genres      $genres,
+        public readonly Author      $author
+    )
+    {
     }
 
     public function toArray(): array
     {
         return [
-            'uuid' => $this->uuid,
-            'title' => $this->title,
-            'isbn' => $this->isbn,
-            'description' => $this->description,
-            'pages' => $this->pages,
+            'uuid'         => $this->uuid,
+            'title'        => $this->title,
+            'isbn'         => $this->isbn,
+            'description'  => $this->description,
+            'pages'        => $this->pages,
             'publish_date' => $this->publishDate,
-            'genres' => $this->genres,
-            'author' => $this->author
+            'genres'       => $this->genres,
+            'author'       => $this->author
         ];
     }
 }

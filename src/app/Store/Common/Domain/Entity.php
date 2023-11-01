@@ -4,7 +4,7 @@ namespace App\Store\Common\Domain;
 
 abstract class Entity implements \JsonSerializable
 {
-    abstract public function toArray() : array;
+    abstract public function toArray(): array;
 
     public function jsonSerialize(): array
     {

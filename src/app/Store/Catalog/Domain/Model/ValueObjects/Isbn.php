@@ -15,7 +15,7 @@ final class Isbn extends ValueObject
         $this->isbn = $isbn;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->isbn;
     }
