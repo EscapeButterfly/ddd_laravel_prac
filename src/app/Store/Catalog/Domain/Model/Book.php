@@ -10,6 +10,7 @@ use App\Store\Catalog\Domain\Model\ValueObjects\Genres;
 use App\Store\Catalog\Domain\Model\ValueObjects\Isbn;
 use App\Store\Catalog\Domain\Model\ValueObjects\Pages;
 use App\Store\Catalog\Domain\Model\ValueObjects\PublishDate;
+use App\Store\Catalog\Domain\Model\ValueObjects\Quantity;
 use App\Store\Catalog\Domain\Model\ValueObjects\Title;
 use App\Store\Common\Domain\AggregateRoot;
 
@@ -24,7 +25,8 @@ class Book extends AggregateRoot
         public readonly Pages       $pages,
         public readonly PublishDate $publishDate,
         public readonly Genres      $genres,
-        public readonly Author      $author
+        public readonly Author      $author,
+        public readonly Quantity    $quantity
     )
     {
     }
@@ -39,7 +41,8 @@ class Book extends AggregateRoot
             'pages'        => $this->pages,
             'publish_date' => $this->publishDate,
             'genres'       => $this->genres,
-            'author'       => $this->author
+            'author'       => $this->author,
+            'quantity'     => $this->quantity
         ];
     }
 }
