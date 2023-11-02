@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Store\Catalog\Domain\Model;
 
-use App\Store\Catalog\Domain\Model\Entities\Author;
+use App\Store\Catalog\Domain\Model\ValueObjects\Authors;
 use App\Store\Catalog\Domain\Model\ValueObjects\Description;
 use App\Store\Catalog\Domain\Model\ValueObjects\Genres;
 use App\Store\Catalog\Domain\Model\ValueObjects\Isbn;
@@ -25,7 +25,7 @@ class Book extends AggregateRoot
         public readonly Pages       $pages,
         public readonly PublishDate $publishDate,
         public readonly Genres      $genres,
-        public readonly Author      $author,
+        public readonly Authors     $authors,
         public readonly Quantity    $quantity
     )
     {
@@ -41,7 +41,7 @@ class Book extends AggregateRoot
             'pages'        => $this->pages,
             'publish_date' => $this->publishDate,
             'genres'       => $this->genres,
-            'author'       => $this->author,
+            'authors'      => $this->authors,
             'quantity'     => $this->quantity
         ];
     }

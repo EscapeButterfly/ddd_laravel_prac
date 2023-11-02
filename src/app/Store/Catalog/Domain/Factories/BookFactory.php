@@ -3,6 +3,7 @@
 namespace App\Store\Catalog\Domain\Factories;
 
 use App\Store\Catalog\Domain\Model\Book;
+use App\Store\Catalog\Domain\Model\ValueObjects\Authors;
 use App\Store\Catalog\Domain\Model\ValueObjects\Description;
 use App\Store\Catalog\Domain\Model\ValueObjects\Genres;
 use App\Store\Catalog\Domain\Model\ValueObjects\Isbn;
@@ -40,7 +41,7 @@ class BookFactory
                 pages      : new Pages($defaults['pages']),
                 publishDate: new PublishDate($defaults['publish_date']),
                 genres     : new Genres($defaults['genres']),
-                author     : AuthorFactory::new(),
+                authors    : new Authors([AuthorFactory::new(), AuthorFactory::new()]),
                 quantity   : new Quantity($defaults['quantity'])
             );
         } else {
@@ -52,7 +53,7 @@ class BookFactory
                 pages      : new Pages($attributes['pages']),
                 publishDate: new PublishDate($attributes['publish_date']),
                 genres     : new Genres($attributes['genres']),
-                author     : $attributes['author'],
+                authors    : $attributes['authors'],
                 quantity   : new Quantity($attributes['quantity'])
             );
         }
