@@ -53,13 +53,26 @@ class BookMapper
         );
     }
 
-    /*public static function fromArray(): Book
+    public static function fromArray(array $book): Book
     {
-
+        $bookModel       = new BookEloquent($book);
+        $bookModel->uuid = $book['uuid'] ?? null;
+        return self::fromEloquent($bookModel);
     }
 
-    public static function toEloquent(): BookEloquent
+    public static function toEloquent(Book $book): BookEloquent
     {
+        $bookEloquent = new BookEloquent();
+        if ($book->uuid) {
+            $bookEloquent = BookEloquent::query()->findOrFail($book->uuid);
+        }
+        $bookEloquent->isbn         = $book->isbn;
+        $bookEloquent->title        = $book->title;
+        $bookEloquent->description  = $book->description;
+        $bookEloquent->pages        = $book->pages;
+        $bookEloquent->publish_date = $book->publishDate;
+        $bookEloquent->quantity     = $book->quantity;
 
-    }*/
+        return $bookEloquent;
+    }
 }
