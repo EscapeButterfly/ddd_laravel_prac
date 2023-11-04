@@ -4,6 +4,7 @@ namespace App\Store\Catalog\Domain\Factories;
 
 
 use App\Store\Catalog\Domain\Model\Entities\Genre;
+use App\Store\Catalog\Domain\Model\ValueObjects\Genre as GenreValueObject;
 
 class GenreFactory
 {
@@ -20,7 +21,7 @@ class GenreFactory
 
         return new Genre(
             uuid : $attributes['uuid'],
-            genre: $attributes['genre']
+            genre: new GenreValueObject($attributes['genre'])
         );
     }
 }
