@@ -5,5 +5,5 @@ namespace App\Store\Common\Domain;
 
 interface CommandInterface
 {
-    public function exectute();
+    public function execute();
 }

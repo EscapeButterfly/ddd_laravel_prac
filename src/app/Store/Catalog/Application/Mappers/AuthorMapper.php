@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
 
 class AuthorMapper
 {
-    public static function fromRequest(Request $request, string $uuid): Author
+    public static function fromRequest(Request $request, ?string $uuid = null): Author
     {
         return new Author(
             uuid      : $uuid,
@@ -48,10 +48,10 @@ class AuthorMapper
         if ($author->uuid) {
             $authorEloquentModel = AuthorEloquent::query()->findOrFail($author->uuid);
         }
-        $authorEloquentModel->first_name  = $author->firstName;
-        $authorEloquentModel->second_name = $author->secondName;
-        $authorEloquentModel->birth_date  = $author->birthDate;
-        $authorEloquentModel->bio         = $author->biography;
+        $authorEloquentModel->first_name  = $author->firstName->firstName;
+        $authorEloquentModel->second_name = $author->secondName->secondName;
+        $authorEloquentModel->birth_date  = $author->birthDate->birthDate;
+        $authorEloquentModel->bio         = $author->biography->biography;
 
         return $authorEloquentModel;
     }
