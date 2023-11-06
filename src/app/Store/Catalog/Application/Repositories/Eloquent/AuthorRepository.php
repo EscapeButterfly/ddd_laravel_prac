@@ -35,6 +35,19 @@ class AuthorRepository implements AuthorRepositoryInterface
         return AuthorMapper::fromEloquent($authorEloquent);
     }
 
+    public function search(array $params = null): Collection
+    {
+        $query = Author::query();
+
+        if ($params) {
+            foreach ($params as $key => $value) {
+                $query->where($key, $value);
+            }
+        }
+
+        return $query->get();
+    }
+
     public function create(AuthorEntity $author): AuthorData
     {
         $authorEloquent = AuthorMapper::toEloquent($author);

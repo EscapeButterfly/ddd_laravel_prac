@@ -30,7 +30,7 @@ class AuthorMapper
             uuid      : $author->uuid,
             firstName : new FirstName($author->first_name),
             secondName: new SecondName($author->second_name),
-            birthDate : new BirthDate($author->birth_date),
+            birthDate : new BirthDate(Carbon::parse($author->birth_date)->toDateTimeImmutable()),
             biography : new Biography($author->bio)
         );
     }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Store\Common\Domain;
+namespace App\Store\Common\Domain;
 
 interface QueryInterface
 {

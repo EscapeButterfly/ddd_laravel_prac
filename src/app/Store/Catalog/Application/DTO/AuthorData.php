@@ -47,11 +47,11 @@ class AuthorData
     public function toArray(): array
     {
         return [
-            'uuid'       => $this->uuid,
-            'firstName'  => $this->firstName,
-            'secondName' => $this->secondName,
-            'birthDate'  => $this->birthDate,
-            'biography'  => $this->biography,
+            'uuid'        => $this->uuid,
+            'first_name'  => $this->firstName->firstName,
+            'second_name' => $this->secondName->secondName,
+            'birth_date'  => $this->birthDate->birthDate,
+            'bio'         => $this->biography->biography,
         ];
     }
 }

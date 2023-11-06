@@ -54,13 +54,13 @@ class BookData
     public function toArray(): array
     {
         return [
-            'uuid'        => $this->uuid,
-            'isbn'        => $this->isbn,
-            'title'       => $this->title,
-            'description' => $this->description,
-            'pages'       => $this->pages,
-            'publishDate' => $this->publishDate,
-            'quantity'    => $this->quantity
+            'uuid'         => $this->uuid,
+            'isbn'         => $this->isbn->isbn,
+            'title'        => $this->title->title,
+            'description'  => $this->description->description,
+            'pages'        => $this->pages->pages,
+            'publish_date' => $this->publishDate->publishDate,
+            'quantity'     => $this->quantity->quantity
         ];
     }
 

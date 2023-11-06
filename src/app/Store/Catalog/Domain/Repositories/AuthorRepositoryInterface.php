@@ -14,6 +14,8 @@ interface AuthorRepositoryInterface
 
     public function findByName(string $name): Author;
 
+    public function search(array $params = null): Collection;
+
     public function create(Author $author): AuthorData;
 
     public function update(AuthorData $authorData): void;
