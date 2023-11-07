@@ -34,7 +34,7 @@ class BookMapper
 
     public static function fromEloquent(BookEloquent $book): Book
     {
-        $genres      = $book->genres->pluck('genre');
+        $genres      = $book->genres->pluck('genre')->toArray();
         $authors     = $book->authors->map(function ($item) {
             return $item['first_name'] . ' ' . $item['second_name'];
         });

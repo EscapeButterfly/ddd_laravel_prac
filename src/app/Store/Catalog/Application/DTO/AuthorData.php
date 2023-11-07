@@ -13,7 +13,6 @@ use Illuminate\Support\Carbon;
 class AuthorData
 {
     public function __construct(
-        public readonly string     $uuid,
         public readonly FirstName  $firstName,
         public readonly SecondName $secondName,
         public readonly BirthDate  $birthDate,
@@ -22,10 +21,9 @@ class AuthorData
     {
     }
 
-    public static function fromRequest(Request $request, string $uuid): AuthorData
+    public static function fromRequest(Request $request): AuthorData
     {
         return new self(
-            uuid      : $uuid,
             firstName : new FirstName($request->input('first_name')),
             secondName: new SecondName($request->input('second_name')),
             birthDate : new BirthDate(Carbon::parse($request->input('birth_date'))->toDateTimeImmutable()),
@@ -36,7 +34,6 @@ class AuthorData
     public static function fromEloquent(Author $author): AuthorData
     {
         return new self(
-            uuid      : $author->uuid,
             firstName : new FirstName($author->first_name),
             secondName: new SecondName($author->second_name),
             birthDate : new BirthDate($author->birth_date),
@@ -47,10 +44,9 @@ class AuthorData
     public function toArray(): array
     {
         return [
-            'uuid'        => $this->uuid,
             'first_name'  => $this->firstName->firstName,
             'second_name' => $this->secondName->secondName,
-            'birth_date'  => $this->birthDate->birthDate,
+            'birth_date'  => $this->birthDate->birthDate->format('Y-m-d'),
             'bio'         => $this->biography->biography,
         ];
     }

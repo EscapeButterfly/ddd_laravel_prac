@@ -15,7 +15,7 @@ class FindAllAuthors implements QueryInterface
         $this->repository = app()->make(AuthorRepositoryInterface::class);
     }
 
-    public function handle(): Collection
+    public function handle(): array
     {
         return $this->repository->findAll();
     }

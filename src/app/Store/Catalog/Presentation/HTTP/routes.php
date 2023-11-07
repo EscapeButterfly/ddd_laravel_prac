@@ -1,16 +1,29 @@
 <?php
 
 use App\Store\Catalog\Presentation\HTTP\AuthorController;
+use App\Store\Catalog\Presentation\HTTP\BookController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'catalog'
 ], function () {
-    Route::put('authors/add', [AuthorController::class, 'add']);
-    Route::patch('authors/update/{uuid}', [AuthorController::class, 'update']);
-    Route::delete('authors/delete/{uuid}', [AuthorController::class, 'delete']);
-    Route::get('authors/all', [AuthorController::class, 'all']);
-    Route::get('authors/get/{uuid}', [AuthorController::class, 'get']);
-    Route::get('authors/search', [AuthorController::class, 'search']);
-    Route::get('authors/findByName/{name}', [AuthorController::class, 'findByName']);
+    Route::group([
+        'prefix' => 'authors'
+    ], function () {
+        Route::put('add', [AuthorController::class, 'add']);
+        Route::patch('update/{uuid}', [AuthorController::class, 'update']);
+        Route::delete('delete/{uuid}', [AuthorController::class, 'delete']);
+        Route::get('all', [AuthorController::class, 'all']);
+        Route::get('get/{uuid}', [AuthorController::class, 'get']);
+        Route::get('search', [AuthorController::class, 'search']);
+        Route::get('findByName/{name}', [AuthorController::class, 'findByName']);
+    });
+
+    Route::group([
+        'prefix' => 'books'
+    ], function () {
+        Route::get('all', [BookController::class, 'all']);
+        Route::get('get/{uuid}', [BookController::class, 'get']);
+        Route::get('findByIsbn/{isbn}', [BookController::class, 'getByIsbn']);
+    });
 });

@@ -12,6 +12,7 @@ class UpdateAuthor implements CommandInterface
 
     public function __construct(
         private readonly AuthorData $authorData,
+        private readonly string $uuid
     )
     {
         $this->repository = app()->make(AuthorRepositoryInterface::class);
@@ -19,6 +20,6 @@ class UpdateAuthor implements CommandInterface
 
     public function execute(): void
     {
-        $this->repository->update($this->authorData);
+        $this->repository->update($this->authorData, $this->uuid);
     }
 }

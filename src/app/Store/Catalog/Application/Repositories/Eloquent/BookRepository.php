@@ -7,48 +7,60 @@ use App\Store\Catalog\Application\Mappers\BookMapper;
 use App\Store\Catalog\Domain\Model\Book;
 use App\Store\Catalog\Domain\Repositories\BookRepositoryInterface;
 use App\Store\Catalog\Infrastructure\EloquentModels\Book as BookEloquent;
-use Illuminate\Database\Eloquent\Collection;
 
 class BookRepository implements BookRepositoryInterface
 {
 
-    public function findAll(): Collection
+    public function findAll(): array
     {
-        return BookEloquent::all();
+        $bookCollection = BookEloquent::query()->with(['authors', 'genres'])->get();
+        return $bookCollection->map(function (BookEloquent $book) {
+            return BookMapper::fromEloquent($book);
+        })->toArray();
     }
 
-    public function findByUuid(string $uuid): BookEloquent
-    {
-        /** @var BookEloquent $book */
-        $book = BookEloquent::query()->where('uuid', $uuid)->firstOrFail();
-        return $book;
-    }
-
-    public function findByIsbn(string $isbn): BookEloquent
+    public function findByUuid(string $uuid): Book
     {
         /** @var BookEloquent $book */
-        $book = BookEloquent::query()->where('isbn', $isbn)->firstOrFail();
-        return $book;
+        $book = BookEloquent::query()
+            ->with(['genres', 'authors'])
+            ->where('uuid', $uuid)
+            ->firstOrFail();
+        return BookMapper::fromEloquent($book);
     }
 
-    public function findByTitle(string $title): BookEloquent
+    public function findByIsbn(string $isbn): Book
     {
         /** @var BookEloquent $book */
-        $book = BookEloquent::query()->where('title', $title)->firstOrFail();
-        return $book;
+        $book = BookEloquent::query()
+            ->with(['genres', 'authors'])
+            ->where('isbn', $isbn)
+            ->firstOrFail();
+        return BookMapper::fromEloquent($book);
     }
 
-    public function create(Book $book): BookData
+    public function findByTitle(string $title): Book
     {
-        $bookEloquent = BookMapper::toEloquent($book);
-        $bookEloquent->save();
-        return BookData::fromEloquent($bookEloquent);
+        /** @var BookEloquent $book */
+        $book = BookEloquent::query()
+            ->with(['genres', 'authors'])
+            ->where('title', $title)
+            ->firstOrFail();
+        return BookMapper::fromEloquent($book);
     }
 
-    public function update(BookData $bookData): void
+    public function create(BookData $bookData, ?string $uuid): Book
+    {
+        $book = new BookEloquent(['uuid' => $uuid]);
+        $book->fill($bookData->toArray());
+        $book->save();
+        return BookMapper::fromEloquent($book);
+    }
+
+    public function update(BookData $bookData, string $uuid): void
     {
         $bookArray    = $bookData->toArray();
-        $bookEloquent = BookEloquent::query()->findOrFail($bookArray['uuid']);
+        $bookEloquent = BookEloquent::query()->findOrFail($uuid);
         $bookEloquent->fill($bookArray);
         $bookEloquent->save();
     }

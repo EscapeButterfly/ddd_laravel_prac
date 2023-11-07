@@ -7,14 +7,16 @@ use App\Store\Catalog\Application\Mappers\AuthorMapper;
 use App\Store\Catalog\Domain\Model\Entities\Author as AuthorEntity;
 use App\Store\Catalog\Domain\Repositories\AuthorRepositoryInterface;
 use App\Store\Catalog\Infrastructure\EloquentModels\Author;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class AuthorRepository implements AuthorRepositoryInterface
 {
-    public function findAll(): Collection
+    public function findAll(): array
     {
-        return Author::all();
+        $authorCollection = Author::all();
+        return $authorCollection->map(function ($author) {
+            return AuthorMapper::fromEloquent($author);
+        })->toArray();
     }
 
     public function findByUuid(string $uuid): AuthorEntity
@@ -35,7 +37,7 @@ class AuthorRepository implements AuthorRepositoryInterface
         return AuthorMapper::fromEloquent($authorEloquent);
     }
 
-    public function search(array $params = null): Collection
+    public function search(array $params = null): array
     {
         $query = Author::query();
 
@@ -45,20 +47,23 @@ class AuthorRepository implements AuthorRepositoryInterface
             }
         }
 
-        return $query->get();
+        return $query->get()->map(function ($author) {
+            return AuthorMapper::fromEloquent($author);
+        })->toArray();
     }
 
-    public function create(AuthorEntity $author): AuthorData
+    public function create(AuthorData $authorData, ?string $uuid): AuthorEntity
     {
-        $authorEloquent = AuthorMapper::toEloquent($author);
-        $authorEloquent->save();
-        return AuthorData::fromEloquent($authorEloquent);
+        $author = new Author(['uuid' => $uuid]);
+        $author->fill($authorData->toArray());
+        $author->save();
+        return AuthorMapper::fromEloquent($author);
     }
 
-    public function update(AuthorData $authorData): void
+    public function update(AuthorData $authorData, string $uuid): void
     {
         $authorArray    = $authorData->toArray();
-        $authorEloquent = Author::query()->findOrFail($authorArray['uuid']);
+        $authorEloquent = Author::query()->findOrFail($uuid);
         $authorEloquent->fill($authorArray);
         $authorEloquent->save();
     }

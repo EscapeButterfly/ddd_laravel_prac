@@ -3,7 +3,7 @@
 namespace App\Store\Catalog\Presentation\HTTP;
 
 use App\Store\Catalog\Application\DTO\AuthorData;
-use App\Store\Catalog\Application\Mappers\AuthorMapper;
+use App\Store\Catalog\Application\Exceptions\AuthorAlreadyExistsException;
 use App\Store\Catalog\Application\UseCases\Commands\DeleteAuthor;
 use App\Store\Catalog\Application\UseCases\Commands\StoreAuthor;
 use App\Store\Catalog\Application\UseCases\Commands\UpdateAuthor;
@@ -11,6 +11,7 @@ use App\Store\Catalog\Application\UseCases\Queries\FindAllAuthors;
 use App\Store\Catalog\Application\UseCases\Queries\FindAuthorByName;
 use App\Store\Catalog\Application\UseCases\Queries\GetAuthorByUuid;
 use App\Store\Catalog\Application\UseCases\Queries\SearchAuthors;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -18,22 +19,37 @@ class AuthorController
 {
     public function add(Request $request): JsonResponse
     {
-        $authorEntity = AuthorMapper::fromRequest($request);
-        $author       = (new StoreAuthor($authorEntity))->execute();
-        return response()->json($author->toArray());
+        try {
+            $authorData         = AuthorData::fromRequest($request);
+            $storeAuthorCommand = new StoreAuthor($authorData);
+            $storeAuthorCommand->execute();
+            $authorUuid = $storeAuthorCommand->getUuid();
+            $author     = (new GetAuthorByUuid($authorUuid))->handle();
+            return response()->json($author->toArray());
+        } catch (AuthorAlreadyExistsException $exception) {
+            return response()->json($exception->getMessage());
+        }
     }
 
     public function update(Request $request, string $uuid): JsonResponse
     {
-        $authorData = AuthorData::fromRequest($request, $uuid);
-        (new UpdateAuthor($authorData))->execute();
-        return response()->json($authorData->toArray());
+        try {
+            $authorData = AuthorData::fromRequest($request);
+            (new UpdateAuthor($authorData, $uuid))->execute();
+            return response()->json($authorData->toArray());
+        } catch (ModelNotFoundException $exception) {
+            return response()->json($exception->getMessage());
+        }
     }
 
     public function delete(string $uuid): JsonResponse
     {
-        (new DeleteAuthor($uuid))->execute();
-        return response()->json();
+        try {
+            (new DeleteAuthor($uuid))->execute();
+            return response()->json();
+        } catch (ModelNotFoundException $exception) {
+            return response()->json($exception->getMessage());
+        }
     }
 
     public function all(): JsonResponse

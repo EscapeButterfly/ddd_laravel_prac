@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 class BookData
 {
     public function __construct(
-        public readonly string      $uuid,
         public readonly Isbn        $isbn,
         public readonly Title       $title,
         public readonly Description $description,
@@ -25,10 +24,9 @@ class BookData
     {
     }
 
-    public static function fromRequest(Request $request, $uuid): BookData
+    public static function fromRequest(Request $request): BookData
     {
         return new self(
-            uuid       : $uuid,
             isbn       : new Isbn($request->input('isbn')),
             title      : new Title($request->input('title')),
             description: new Description($request->input('description')),
@@ -41,7 +39,6 @@ class BookData
     public static function fromEloquent(Book $book): BookData
     {
         return new self(
-            uuid       : $book->uuid,
             isbn       : new Isbn($book->isbn),
             title      : new Title($book->title),
             description: new Description($book->description),
@@ -54,12 +51,11 @@ class BookData
     public function toArray(): array
     {
         return [
-            'uuid'         => $this->uuid,
             'isbn'         => $this->isbn->isbn,
             'title'        => $this->title->title,
             'description'  => $this->description->description,
             'pages'        => $this->pages->pages,
-            'publish_date' => $this->publishDate->publishDate,
+            'publish_date' => $this->publishDate->publishDate->format('Y-m-d'),
             'quantity'     => $this->quantity->quantity
         ];
     }
