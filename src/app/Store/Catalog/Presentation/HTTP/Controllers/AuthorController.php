@@ -36,7 +36,8 @@ class AuthorController
         try {
             $authorData = AuthorData::fromRequest($request);
             (new UpdateAuthor($authorData, $uuid))->execute();
-            return response()->json($authorData->toArray());
+            $author     = (new GetAuthorByUuid($uuid))->handle();
+            return response()->json($author->toArray());
         } catch (ModelNotFoundException $exception) {
             return response()->json($exception->getMessage(), 404);
         }

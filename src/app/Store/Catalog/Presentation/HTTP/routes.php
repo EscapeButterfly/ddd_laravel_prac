@@ -23,6 +23,8 @@ Route::group([
         'prefix' => 'books'
     ], function () {
         Route::put('create', [BookController::class, 'create']);
+        Route::patch('update/{uuid}', [BookController::class, 'update']);
+        Route::delete('delete/{uuid}', [BookController::class, 'delete']);
         Route::get('all', [BookController::class, 'all']);
         Route::get('get/{uuid}', [BookController::class, 'get']);
         Route::get('findByIsbn/{isbn}', [BookController::class, 'getByIsbn']);
