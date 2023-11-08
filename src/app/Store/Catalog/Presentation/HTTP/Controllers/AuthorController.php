@@ -12,6 +12,7 @@ use App\Store\Catalog\Application\UseCases\Queries\FindAuthorByName;
 use App\Store\Catalog\Application\UseCases\Queries\GetAuthorByUuid;
 use App\Store\Catalog\Application\UseCases\Queries\SearchAuthors;
 use App\Store\Catalog\Presentation\HTTP\Requests\CreateAuthorRequest;
+use App\Store\Catalog\Presentation\HTTP\Requests\UpdateAuthorRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class AuthorController
         }
     }
 
-    public function update(Request $request, string $uuid): JsonResponse
+    public function update(UpdateAuthorRequest $request, string $uuid): JsonResponse
     {
         try {
             $authorData = AuthorData::fromRequest($request);
