@@ -10,6 +10,7 @@ use App\Store\Catalog\Domain\Model\ValueObjects\Quantity;
 use App\Store\Catalog\Domain\Model\ValueObjects\Title;
 use App\Store\Catalog\Infrastructure\EloquentModels\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class BookData
 {
@@ -31,7 +32,7 @@ class BookData
             title      : new Title($request->input('title')),
             description: new Description($request->input('description')),
             pages      : new Pages($request->input('pages')),
-            publishDate: new PublishDate($request->input('publish_date')),
+            publishDate: new PublishDate(Carbon::parse($request->input('publish_date'))->toDateTimeImmutable()),
             quantity   : new Quantity($request->input('quantity')),
         );
     }

@@ -1,7 +1,7 @@
 <?php
 
-use App\Store\Catalog\Presentation\HTTP\AuthorController;
-use App\Store\Catalog\Presentation\HTTP\BookController;
+use App\Store\Catalog\Presentation\HTTP\Controllers\AuthorController;
+use App\Store\Catalog\Presentation\HTTP\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([

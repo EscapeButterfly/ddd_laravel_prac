@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Store\Catalog\Presentation\HTTP;
+namespace App\Store\Catalog\Presentation\HTTP\Controllers;
 
 use App\Store\Catalog\Application\DTO\AuthorData;
 use App\Store\Catalog\Application\Exceptions\AuthorAlreadyExistsException;
