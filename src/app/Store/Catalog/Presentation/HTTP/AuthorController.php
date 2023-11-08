@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 class AuthorController
 {
-    public function add(Request $request): JsonResponse
+    public function create(Request $request): JsonResponse
     {
         try {
             $authorData         = AuthorData::fromRequest($request);
@@ -27,7 +27,7 @@ class AuthorController
             $author     = (new GetAuthorByUuid($authorUuid))->handle();
             return response()->json($author->toArray());
         } catch (AuthorAlreadyExistsException $exception) {
-            return response()->json($exception->getMessage());
+            return response()->json($exception->getMessage(), 400);
         }
     }
 
@@ -38,7 +38,7 @@ class AuthorController
             (new UpdateAuthor($authorData, $uuid))->execute();
             return response()->json($authorData->toArray());
         } catch (ModelNotFoundException $exception) {
-            return response()->json($exception->getMessage());
+            return response()->json($exception->getMessage(), 404);
         }
     }
 
@@ -48,7 +48,7 @@ class AuthorController
             (new DeleteAuthor($uuid))->execute();
             return response()->json();
         } catch (ModelNotFoundException $exception) {
-            return response()->json($exception->getMessage());
+            return response()->json($exception->getMessage(), 404);
         }
     }
 

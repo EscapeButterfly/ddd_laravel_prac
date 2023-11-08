@@ -10,7 +10,7 @@ Route::group([
     Route::group([
         'prefix' => 'authors'
     ], function () {
-        Route::put('add', [AuthorController::class, 'add']);
+        Route::put('create', [AuthorController::class, 'create']);
         Route::patch('update/{uuid}', [AuthorController::class, 'update']);
         Route::delete('delete/{uuid}', [AuthorController::class, 'delete']);
         Route::get('all', [AuthorController::class, 'all']);
@@ -22,6 +22,7 @@ Route::group([
     Route::group([
         'prefix' => 'books'
     ], function () {
+        Route::put('create', [BookController::class, 'create']);
         Route::get('all', [BookController::class, 'all']);
         Route::get('get/{uuid}', [BookController::class, 'get']);
         Route::get('findByIsbn/{isbn}', [BookController::class, 'getByIsbn']);
