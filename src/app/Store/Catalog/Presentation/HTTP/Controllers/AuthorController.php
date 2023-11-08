@@ -11,13 +11,14 @@ use App\Store\Catalog\Application\UseCases\Queries\FindAllAuthors;
 use App\Store\Catalog\Application\UseCases\Queries\FindAuthorByName;
 use App\Store\Catalog\Application\UseCases\Queries\GetAuthorByUuid;
 use App\Store\Catalog\Application\UseCases\Queries\SearchAuthors;
+use App\Store\Catalog\Presentation\HTTP\Requests\CreateAuthorRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthorController
 {
-    public function create(Request $request): JsonResponse
+    public function create(CreateAuthorRequest $request): JsonResponse
     {
         try {
             $authorData         = AuthorData::fromRequest($request);
