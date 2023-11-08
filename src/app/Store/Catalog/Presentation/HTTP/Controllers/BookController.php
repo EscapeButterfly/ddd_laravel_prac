@@ -11,13 +11,14 @@ use App\Store\Catalog\Application\UseCases\Queries\FindAllBooks;
 use App\Store\Catalog\Application\UseCases\Queries\FindBookByIsbn;
 use App\Store\Catalog\Application\UseCases\Queries\FindBookByTitle;
 use App\Store\Catalog\Application\UseCases\Queries\FindBookByUuid;
+use App\Store\Catalog\Presentation\HTTP\Requests\CreateBookRequest;
+use App\Store\Catalog\Presentation\HTTP\Requests\UpdateBookRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class BookController
 {
-    public function create(Request $request): JsonResponse
+    public function create(CreateBookRequest $request): JsonResponse
     {
         try {
             $bookData         = BookData::fromRequest($request);
@@ -30,7 +31,7 @@ class BookController
         }
     }
 
-    public function update(Request $request, string $uuid): JsonResponse
+    public function update(UpdateBookRequest $request, string $uuid): JsonResponse
     {
         try {
             $bookData          = BookData::fromRequest($request);

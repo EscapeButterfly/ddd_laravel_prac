@@ -2,9 +2,10 @@
 
 namespace App\Store\Catalog\Presentation\HTTP\Requests;
 
+use App\Store\Catalog\Presentation\HTTP\Requests\Rules\Isbn;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateAuthorRequest extends FormRequest
+class CreateBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +23,12 @@ class CreateAuthorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name'  => 'required|string',
-            'second_name' => 'required|string',
-            'birth_date'  => 'required|date',
-            'biography'   => 'required|string'
+            'isbn'         => ['required', new Isbn],
+            'title'        => 'required|string',
+            'description'  => 'required|string',
+            'pages'        => 'required|integer',
+            'publish_date' => 'required|date',
+            'quantity'     => 'required|integer'
         ];
     }
 }
