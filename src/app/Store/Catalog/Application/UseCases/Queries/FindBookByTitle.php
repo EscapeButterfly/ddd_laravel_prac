@@ -2,7 +2,6 @@
 
 namespace App\Store\Catalog\Application\UseCases\Queries;
 
-use App\Store\Catalog\Domain\Model\Book;
 use App\Store\Catalog\Domain\Repositories\BookRepositoryInterface;
 use App\Store\Common\Domain\QueryInterface;
 
@@ -17,7 +16,7 @@ class FindBookByTitle implements QueryInterface
         $this->repository = app()->make(BookRepositoryInterface::class);
     }
 
-    public function handle(): Book
+    public function handle(): array
     {
         return $this->repository->findByTitle($this->title);
     }

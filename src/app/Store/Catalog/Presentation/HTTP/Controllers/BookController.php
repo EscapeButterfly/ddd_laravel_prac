@@ -17,7 +17,7 @@ class BookController
     public function create(Request $request): JsonResponse
     {
         try {
-            $bookData = BookData::fromRequest($request);
+            $bookData         = BookData::fromRequest($request);
             $storeBookCommand = new StoreBook($bookData);
             $storeBookCommand->execute();
             $book = (new FindBookByUuid($storeBookCommand->getUuid()))->handle();
@@ -47,8 +47,8 @@ class BookController
 
     public function getByTitle(string $title): JsonResponse
     {
-        $book = (new FindBookByTitle($title))->handle();
-        return response()->json($book->toArray());
+        $books = (new FindBookByTitle($title))->handle();
+        return response()->json($books);
     }
 
 

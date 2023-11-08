@@ -14,7 +14,7 @@ interface BookRepositoryInterface
 
     public function findByIsbn(string $isbn): Book;
 
-    public function findByTitle(string $title): Book;
+    public function findByTitle(string $title): array;
 
     public function create(BookData $bookData, ?string $uuid): Book;
 

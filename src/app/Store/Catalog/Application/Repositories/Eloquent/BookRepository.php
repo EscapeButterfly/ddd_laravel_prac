@@ -39,14 +39,16 @@ class BookRepository implements BookRepositoryInterface
         return BookMapper::fromEloquent($book);
     }
 
-    public function findByTitle(string $title): Book
+    public function findByTitle(string $title): array
     {
         /** @var BookEloquent $book */
-        $book = BookEloquent::query()
+        $bookCollection = BookEloquent::query()
             ->with(['genres', 'authors'])
-            ->where('title', $title)
-            ->firstOrFail();
-        return BookMapper::fromEloquent($book);
+            ->where('title', 'LIKE', "%$title%")
+            ->get();
+        return $bookCollection->map(function ($bookEloquent) {
+            return BookMapper::fromEloquent($bookEloquent);
+        })->toArray();
     }
 
     public function create(BookData $bookData, ?string $uuid): Book
