@@ -8,20 +8,20 @@ use App\Store\Common\Domain\ValueObject;
 
 final class Description extends ValueObject
 {
-    public readonly string $description;
+    public readonly string $value;
 
     public function __construct(string $description)
     {
-        $this->description = $description;
+        $this->value = $description;
     }
 
     public function __toString(): string
     {
-        return $this->description;
+        return $this->value;
     }
 
     public function jsonSerialize(): string
     {
-        return $this->description;
+        return $this->value;
     }
 }

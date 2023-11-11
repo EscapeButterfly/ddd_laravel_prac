@@ -9,15 +9,15 @@ use App\Store\Common\Domain\ValueObject;
 
 final class PublishDate extends ValueObject
 {
-    public readonly DateTimeImmutable $publishDate;
+    public readonly DateTimeImmutable $value;
 
     public function __construct(DateTimeImmutable $publishDate)
     {
-        $this->publishDate = $publishDate;
+        $this->value = $publishDate;
     }
 
     public function jsonSerialize(): string
     {
-        return $this->publishDate->format('Y-m-d');
+        return $this->value->format('Y-m-d');
     }
 }

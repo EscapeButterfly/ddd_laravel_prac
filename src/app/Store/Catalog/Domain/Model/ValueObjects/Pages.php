@@ -8,15 +8,15 @@ use App\Store\Common\Domain\ValueObject;
 
 final class Pages extends ValueObject
 {
-    public readonly int $pages;
+    public readonly int $value;
 
     public function __construct(int $pages)
     {
-        $this->pages = $pages;
+        $this->value = $pages;
     }
 
     public function jsonSerialize(): int
     {
-        return $this->pages;
+        return $this->value;
     }
 }

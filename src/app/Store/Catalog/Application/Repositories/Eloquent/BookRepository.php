@@ -80,11 +80,11 @@ class BookRepository implements BookRepositoryInterface
 
         $authorsUuid = array_map(function ($author) {
             return $author->uuid;
-        }, $bookData->authors->authors);
+        }, $bookData->authors->value);
 
         $genresUuid = array_map(function ($genre) {
             return $genre->uuid;
-        }, $bookData->genres->genres);
+        }, $bookData->genres->value);
 
         $book->authors()->attach($authorsUuid);
         $book->genres()->attach($genresUuid);
@@ -101,11 +101,11 @@ class BookRepository implements BookRepositoryInterface
 
         $authorsUuid = array_map(function ($author) {
             return $author->uuid;
-        }, $bookData->authors->authors);
+        }, $bookData->authors->value);
 
         $genresUuid = array_map(function ($genre) {
             return $genre->uuid;
-        }, $bookData->genres->genres);
+        }, $bookData->genres->value);
 
         $bookEloquent->authors()->sync($authorsUuid);
         $bookEloquent->genres()->sync($genresUuid);

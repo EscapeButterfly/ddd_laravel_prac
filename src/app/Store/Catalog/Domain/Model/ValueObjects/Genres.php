@@ -11,7 +11,7 @@ use App\Store\Catalog\Domain\Model\Entities\Genre;
 
 final class Genres extends ValueObjectArray
 {
-    public readonly array $genres;
+    public readonly array $value;
 
     public function __construct(array $genres)
     {
@@ -23,16 +23,16 @@ final class Genres extends ValueObjectArray
             }
         }
 
-        $this->genres = $genres;
+        $this->value = $genres;
     }
 
     public function toArray(): array
     {
-        return $this->genres;
+        return $this->value;
     }
 
     public function jsonSerialize(): array
     {
-        return $this->genres;
+        return $this->value;
     }
 }

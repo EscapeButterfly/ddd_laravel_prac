@@ -70,12 +70,12 @@ class BookData
     public function toArray(): array
     {
         return [
-            'isbn'         => $this->isbn->isbn,
-            'title'        => $this->title->title,
-            'description'  => $this->description->description,
-            'pages'        => $this->pages->pages,
-            'publish_date' => $this->publishDate->publishDate->format('Y-m-d'),
-            'quantity'     => $this->quantity->quantity,
+            'isbn'         => $this->isbn->value,
+            'title'        => $this->title->value,
+            'description'  => $this->description->value,
+            'pages'        => $this->pages->value,
+            'publish_date' => $this->publishDate->value->format('Y-m-d'),
+            'quantity'     => $this->quantity->value,
             'authors'      => $this->authors->toArray(),
             'genres'       => $this->genres->toArray()
         ];

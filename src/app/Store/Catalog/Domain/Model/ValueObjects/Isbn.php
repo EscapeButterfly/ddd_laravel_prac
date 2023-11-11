@@ -8,20 +8,20 @@ use App\Store\Common\Domain\ValueObject;
 
 final class Isbn extends ValueObject
 {
-    public readonly string $isbn;
+    public readonly string $value;
 
     public function __construct(string $isbn)
     {
-        $this->isbn = $isbn;
+        $this->value = $isbn;
     }
 
     public function __toString(): string
     {
-        return $this->isbn;
+        return $this->value;
     }
 
     public function jsonSerialize(): string
     {
-        return $this->isbn;
+        return $this->value;
     }
 }

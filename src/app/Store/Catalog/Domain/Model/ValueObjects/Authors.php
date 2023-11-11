@@ -8,7 +8,7 @@ use App\Store\Common\Domain\ValueObjectArray;
 
 final class Authors extends ValueObjectArray
 {
-    public readonly array $authors;
+    public readonly array $value;
 
     public function __construct(array $authors)
     {
@@ -20,16 +20,16 @@ final class Authors extends ValueObjectArray
             }
         }
 
-        $this->authors = $authors;
+        $this->value = $authors;
     }
 
     public function toArray(): array
     {
-        return $this->authors;
+        return $this->value;
     }
 
     public function jsonSerialize(): array
     {
-        return $this->authors;
+        return $this->value;
     }
 }

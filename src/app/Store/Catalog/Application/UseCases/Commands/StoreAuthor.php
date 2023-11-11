@@ -24,8 +24,8 @@ class StoreAuthor implements CommandInterface
 
     public function execute(): void
     {
-        $firstName = $this->author->firstName->firstName;
-        $lastName  = $this->author->lastName->lastName;
+        $firstName = $this->author->firstName->value;
+        $lastName  = $this->author->lastName->value;
 
         try {
             if ($this->repository->findByName("$firstName $lastName")) {

@@ -44,10 +44,10 @@ class AuthorData
     public function toArray(): array
     {
         return [
-            'first_name' => $this->firstName->firstName,
-            'last_name'  => $this->lastName->lastName,
-            'birth_date' => $this->birthDate->birthDate->format('Y-m-d'),
-            'bio'        => $this->biography->biography,
+            'first_name' => $this->firstName->value,
+            'last_name'  => $this->lastName->value,
+            'birth_date' => $this->birthDate->value->format('Y-m-d'),
+            'bio'        => $this->biography->value,
         ];
     }
 }

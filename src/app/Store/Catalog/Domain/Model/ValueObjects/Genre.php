@@ -6,15 +6,15 @@ use App\Store\Common\Domain\ValueObject;
 
 class Genre extends ValueObject
 {
-    public readonly string $genre;
+    public readonly string $value;
 
     public function __construct(string $genre)
     {
-        $this->genre = $genre;
+        $this->value = $genre;
     }
 
     public function jsonSerialize(): string
     {
-        return $this->genre;
+        return $this->value;
     }
 }

@@ -8,15 +8,15 @@ use App\Store\Common\Domain\ValueObject;
 
 final class Biography extends ValueObject
 {
-    public readonly string $biography;
+    public readonly string $value;
 
     public function __construct(string $biography)
     {
-        $this->biography = $biography;
+        $this->value = $biography;
     }
 
     public function jsonSerialize(): string
     {
-        return $this->biography;
+        return $this->value;
     }
 }

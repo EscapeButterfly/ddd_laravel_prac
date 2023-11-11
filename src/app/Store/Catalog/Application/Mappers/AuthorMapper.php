@@ -48,10 +48,10 @@ class AuthorMapper
         if ($author->uuid) {
             $authorEloquentModel = AuthorEloquent::query()->findOrFail($author->uuid);
         }
-        $authorEloquentModel->first_name = $author->firstName->firstName;
-        $authorEloquentModel->last_name  = $author->lastName->lastName;
-        $authorEloquentModel->birth_date = $author->birthDate->birthDate;
-        $authorEloquentModel->bio        = $author->biography->biography;
+        $authorEloquentModel->first_name = $author->firstName->value;
+        $authorEloquentModel->last_name  = $author->lastName->value;
+        $authorEloquentModel->birth_date = $author->birthDate->value;
+        $authorEloquentModel->bio        = $author->biography->value;
 
         return $authorEloquentModel;
     }
