@@ -2,6 +2,8 @@
 
 namespace App\Store\Catalog\Domain\Model\ValueObjects;
 
+use App\Store\Catalog\Domain\Exception\NotValidAuthorException;
+use App\Store\Catalog\Domain\Model\Entities\Author;
 use App\Store\Common\Domain\ValueObjectArray;
 
 final class Authors extends ValueObjectArray
@@ -12,12 +14,13 @@ final class Authors extends ValueObjectArray
     {
         parent::__construct($authors);
 
-        $this->authors = $authors;
-    }
+        foreach ($authors as $author) {
+            if (!$author instanceof Author) {
+                throw new NotValidAuthorException;
+            }
+        }
 
-    public function __toString(): string
-    {
-        return implode(', ', $this->authors);
+        $this->authors = $authors;
     }
 
     public function toArray(): array

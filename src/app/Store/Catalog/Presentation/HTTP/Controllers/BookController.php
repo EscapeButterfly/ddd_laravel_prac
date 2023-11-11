@@ -11,10 +11,13 @@ use App\Store\Catalog\Application\UseCases\Queries\FindAllBooks;
 use App\Store\Catalog\Application\UseCases\Queries\FindBookByIsbn;
 use App\Store\Catalog\Application\UseCases\Queries\FindBookByTitle;
 use App\Store\Catalog\Application\UseCases\Queries\FindBookByUuid;
+use App\Store\Catalog\Application\UseCases\Queries\GetGenres;
+use App\Store\Catalog\Application\UseCases\Queries\GetGenresByUuid;
 use App\Store\Catalog\Presentation\HTTP\Requests\CreateBookRequest;
 use App\Store\Catalog\Presentation\HTTP\Requests\UpdateBookRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class BookController
 {
@@ -78,5 +81,10 @@ class BookController
         return response()->json($books);
     }
 
+    public function getGenres(): JsonResponse
+    {
+        $genres = (new GetGenres())->handle();
+        return response()->json($genres);
+    }
 
 }

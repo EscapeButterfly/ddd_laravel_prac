@@ -29,5 +29,6 @@ Route::group([
         Route::get('get/{uuid}', [BookController::class, 'get']);
         Route::get('findByIsbn/{isbn}', [BookController::class, 'getByIsbn']);
         Route::get('findByTitle/{title}', [BookController::class, 'getByTitle']);
+        Route::get('genres', [BookController::class, 'getGenres']);
     });
 });

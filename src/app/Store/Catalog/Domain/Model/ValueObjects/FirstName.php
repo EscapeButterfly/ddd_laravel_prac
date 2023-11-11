@@ -19,4 +19,9 @@ final class FirstName extends ValueObject
     {
         return $this->firstName;
     }
+
+    public function __toString(): string
+    {
+        return $this->firstName;
+    }
 }

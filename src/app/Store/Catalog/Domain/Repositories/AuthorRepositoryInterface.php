@@ -13,6 +13,8 @@ interface AuthorRepositoryInterface
 
     public function findByName(string $name): Author;
 
+    public function findByUuids(array $uuids): array;
+
     public function search(array $params = null): array;
 
     public function create(AuthorData $authorData, ?string $uuid): Author;

@@ -5,6 +5,7 @@ namespace App\Store\Catalog\Infrastructure\EloquentModels;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Book extends Model
 {
@@ -35,7 +36,7 @@ class Book extends Model
             'authors_books',
             'book_uuid',
             'author_uuid'
-        );
+        )->using(BooksAuthor::class);
     }
 
     public function genres(): BelongsToMany
@@ -45,6 +46,6 @@ class Book extends Model
             'book_genre',
             'book_uuid',
             'genre_uuid'
-        );
+        )->using(BooksGenres::class);
     }
 }

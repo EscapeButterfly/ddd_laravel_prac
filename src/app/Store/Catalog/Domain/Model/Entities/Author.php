@@ -32,4 +32,9 @@ class Author extends Entity
             'bio'         => $this->biography
         ];
     }
+
+    public function __toString(): string
+    {
+        return "$this->firstName $this->secondName";
+    }
 }

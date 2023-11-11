@@ -37,6 +37,16 @@ class AuthorRepository implements AuthorRepositoryInterface
         return AuthorMapper::fromEloquent($authorEloquent);
     }
 
+    public function findByUuids(array $uuids): array
+    {
+        return Author::query()
+            ->whereIn('uuid', $uuids)
+            ->get()
+            ->map(function ($author) {
+                return AuthorMapper::fromEloquent($author);
+            })->toArray();
+    }
+
     public function search(array $params = null): array
     {
         $query = Author::query();

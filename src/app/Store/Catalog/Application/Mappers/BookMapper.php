@@ -34,21 +34,19 @@ class BookMapper
 
     public static function fromEloquent(BookEloquent $book): Book
     {
-        $genres      = $book->genres->pluck('genre')->toArray();
-        $authors     = $book->authors->map(function ($item) {
-            return $item['first_name'] . ' ' . $item['second_name'];
-        });
-        $publishDate = Carbon::parse($book->publish_date)->toDateTimeImmutable();
-
         return new Book(
             uuid       : $book->uuid,
             title      : new Title($book->title),
             isbn       : new Isbn($book->isbn),
             description: new Description($book->description),
             pages      : new Pages($book->pages),
-            publishDate: new PublishDate($publishDate),
-            genres     : new Genres($genres),
-            authors    : new Authors($authors->toArray()),
+            publishDate: new PublishDate(Carbon::parse($book->publish_date)->toDateTimeImmutable()),
+            genres     : new Genres($book->genres->map(function ($genre) {
+                return GenreMapper::fromEloquent($genre);
+            })->toArray()),
+            authors    : new Authors($book->authors->map(function ($author) {
+                return AuthorMapper::fromEloquent($author);
+            })->toArray()),
             quantity   : new Quantity($book->quantity)
         );
     }

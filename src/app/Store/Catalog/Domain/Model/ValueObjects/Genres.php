@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Store\Catalog\Domain\Model\ValueObjects;
 
+use App\Store\Catalog\Domain\Exception\NotValidGenreException;
 use App\Store\Common\Domain\ValueObjectArray;
+use App\Store\Catalog\Domain\Model\Entities\Genre;
+
 
 final class Genres extends ValueObjectArray
 {
@@ -14,12 +17,13 @@ final class Genres extends ValueObjectArray
     {
         parent::__construct($genres);
 
-        $this->genres = array_values($genres);
-    }
+        foreach ($genres as $genre) {
+            if (!$genre instanceof Genre) {
+                throw new NotValidGenreException;
+            }
+        }
 
-    public function __toString(): string
-    {
-        return implode(', ', $this->genres);
+        $this->genres = $genres;
     }
 
     public function toArray(): array

@@ -4,9 +4,11 @@ namespace App\Store\Catalog\Application\Repositories\Eloquent;
 
 use App\Store\Catalog\Application\DTO\BookData;
 use App\Store\Catalog\Application\Mappers\BookMapper;
+use App\Store\Catalog\Application\Mappers\GenreMapper;
 use App\Store\Catalog\Domain\Model\Book;
 use App\Store\Catalog\Domain\Repositories\BookRepositoryInterface;
 use App\Store\Catalog\Infrastructure\EloquentModels\Book as BookEloquent;
+use App\Store\Catalog\Infrastructure\EloquentModels\Genre;
 
 class BookRepository implements BookRepositoryInterface
 {
@@ -51,11 +53,42 @@ class BookRepository implements BookRepositoryInterface
         })->toArray();
     }
 
+    public function getGenres(): array
+    {
+        return Genre::query()
+            ->get()
+            ->map(function ($genre) {
+                return GenreMapper::fromEloquent($genre);
+            })->toArray();
+    }
+
+    public function getGenresByUuid(array $genres): array
+    {
+        return Genre::query()
+            ->whereIn('uuid', $genres)
+            ->get()
+            ->map(function ($genre) {
+                return GenreMapper::fromEloquent($genre);
+            })->toArray();
+    }
+
     public function create(BookData $bookData, ?string $uuid): Book
     {
         $book = new BookEloquent(['uuid' => $uuid]);
         $book->fill($bookData->toArray());
         $book->save();
+
+        $authorsUuid = array_map(function ($author) {
+            return $author->uuid;
+        }, $bookData->authors->authors);
+
+        $genresUuid = array_map(function ($genre) {
+            return $genre->uuid;
+        }, $bookData->genres->genres);
+
+        $book->authors()->attach($authorsUuid);
+        $book->genres()->attach($genresUuid);
+
         return BookMapper::fromEloquent($book);
     }
 
@@ -65,6 +98,17 @@ class BookRepository implements BookRepositoryInterface
         $bookEloquent = BookEloquent::query()->findOrFail($uuid);
         $bookEloquent->fill($bookArray);
         $bookEloquent->save();
+
+        $authorsUuid = array_map(function ($author) {
+            return $author->uuid;
+        }, $bookData->authors->authors);
+
+        $genresUuid = array_map(function ($genre) {
+            return $genre->uuid;
+        }, $bookData->genres->genres);
+
+        $bookEloquent->authors()->sync($authorsUuid);
+        $bookEloquent->genres()->sync($genresUuid);
     }
 
     public function delete(string $uuid): void

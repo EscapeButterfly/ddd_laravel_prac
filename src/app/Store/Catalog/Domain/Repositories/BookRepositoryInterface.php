@@ -16,6 +16,10 @@ interface BookRepositoryInterface
 
     public function findByTitle(string $title): array;
 
+    public function getGenres(): array;
+
+    public function getGenresByUuid(array $genres): array;
+
     public function create(BookData $bookData, ?string $uuid): Book;
 
     public function update(BookData $bookData, string $uuid): void;
