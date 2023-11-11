@@ -31,8 +31,8 @@ class AuthorRepository implements AuthorRepositoryInterface
         /** @var Author $authorEloquent */
         $authorEloquent = Author::query()
             ->where('first_name', 'LIKE', "%$name%")
-            ->orWhere('second_name', 'LIKE', "%$name%")
-            ->orWhere(DB::raw("concat(first_name, ' ', second_name)"), 'LIKE', "%$name%")
+            ->orWhere('last_name', 'LIKE', "%$name%")
+            ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', "%$name%")
             ->firstOrFail();
         return AuthorMapper::fromEloquent($authorEloquent);
     }

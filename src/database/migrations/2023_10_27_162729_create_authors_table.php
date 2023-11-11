@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('authors', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->string('first_name');
-            $table->string('second_name');
+            $table->string('last_name');
             $table->date('birth_date');
             $table->mediumText('bio');
             $table->timestamps();

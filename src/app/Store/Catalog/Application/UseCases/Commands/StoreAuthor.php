@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class StoreAuthor implements CommandInterface
 {
     private AuthorRepositoryInterface $repository;
-    private string $uuid;
+    private string                    $uuid;
 
     public function __construct(
         private readonly AuthorData $author
@@ -24,11 +24,11 @@ class StoreAuthor implements CommandInterface
 
     public function execute(): void
     {
-        $firstName  = $this->author->firstName->firstName;
-        $secondName = $this->author->secondName->secondName;
+        $firstName = $this->author->firstName->firstName;
+        $lastName  = $this->author->lastName->lastName;
 
         try {
-            if ($this->repository->findByName("$firstName $secondName")) {
+            if ($this->repository->findByName("$firstName $lastName")) {
                 throw new AuthorAlreadyExistsException();
             }
         } catch (ModelNotFoundException $exception) {

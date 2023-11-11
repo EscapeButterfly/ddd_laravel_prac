@@ -10,13 +10,13 @@ class Author extends Model
 {
     use HasUuids;
 
-    protected $table = 'authors';
+    protected $table      = 'authors';
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
         'uuid',
         'first_name',
-        'second_name',
+        'last_name',
         'birth_date',
         'bio',
     ];

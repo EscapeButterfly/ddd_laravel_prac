@@ -6,22 +6,22 @@ namespace App\Store\Catalog\Domain\Model\ValueObjects;
 
 use App\Store\Common\Domain\ValueObject;
 
-final class SecondName extends ValueObject
+final class LastName extends ValueObject
 {
-    public readonly string $secondName;
+    public readonly string $lastName;
 
-    public function __construct(string $secondName)
+    public function __construct(string $lastName)
     {
-        $this->secondName = $secondName;
+        $this->lastName = $lastName;
     }
 
     public function jsonSerialize(): string
     {
-        return $this->secondName;
+        return $this->lastName;
     }
 
     public function __toString(): string
     {
-        return $this->secondName;
+        return $this->lastName;
     }
 }
