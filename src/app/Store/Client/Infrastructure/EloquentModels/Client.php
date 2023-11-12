@@ -33,21 +33,6 @@ class Client extends Model
         'password' => 'hashed'
     ];
 
-    protected static function boot(): void
-    {
-        parent::boot();
-
-        static::created(function ($client) {
-            $client->password = Hash::make($client->password);
-        });
-
-        static::updated(function ($client) {
-            if ($client->isDirty('password')) {
-                $client->password = Hash::make($client->password);
-            }
-        });
-    }
-
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class, 'client_uuid', 'uuid');

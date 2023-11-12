@@ -23,23 +23,18 @@ class BookController
 {
     public function create(CreateBookRequest $request): JsonResponse
     {
-        try {
-            $bookData         = BookData::fromRequest($request);
-            $storeBookCommand = new StoreBook($bookData);
-            $storeBookCommand->execute();
-            $book = (new FindBookByUuid($storeBookCommand->getUuid()))->handle();
-            return response()->json($book->toArray());
-        } catch (BookAlreadyExistsException $exception) {
-            return response()->json($exception->getMessage(), 400);
-        }
+        $bookData         = BookData::fromRequest($request);
+        $storeBookCommand = new StoreBook($bookData);
+        $storeBookCommand->execute();
+        $book = (new FindBookByUuid($storeBookCommand->getUuid()))->handle();
+        return response()->json($book->toArray());
     }
 
     public function update(UpdateBookRequest $request, string $uuid): JsonResponse
     {
         try {
-            $bookData          = BookData::fromRequest($request);
-            $updateBookCommand = new UpdateBook($bookData, $uuid);
-            $updateBookCommand->execute();
+            $bookData = BookData::fromRequest($request);
+            (new UpdateBook($bookData, $uuid))->execute();
             $book = (new FindBookByUuid($uuid))->handle();
             return response()->json($book->toArray());
         } catch (ModelNotFoundException $exception) {

@@ -14,18 +14,13 @@ final class Addresses extends ValueObjectArray
     {
         parent::__construct($addresses);
 
-        /*foreach ($addresses as $address) {
+        foreach ($addresses as $address) {
             if (!$address instanceof Address) {
                 throw new NotValidAddressException;
             }
-        }*/
+        }
 
         $this->value = $addresses;
-    }
-
-    public function toArray(): array
-    {
-        return $this->value;
     }
 
     public function jsonSerialize(): array

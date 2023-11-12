@@ -19,11 +19,12 @@ class ClientMapper
         return new Client(
             uuid       : $uuid,
             email      : new Email($request->input('email')),
-            password   : new Password($request->input('password')),
             firstName  : new FirstName($request->input('first_name')),
             lastName   : new LastName($request->input('last_name')),
             phoneNumber: new PhoneNumber($request->input('phone_number')),
-            addresses  : new Addresses($request->input('addresses'))
+            addresses  : new Addresses(array_map(function ($address) {
+                return AddressMapper::fromArray($address);
+            }, $request->input('addresses')))
         );
     }
 
@@ -32,11 +33,12 @@ class ClientMapper
         return new Client(
             uuid       : $client->uuid,
             email      : new Email($client->email),
-            password   : new Password($client->password),
             firstName  : new FirstName($client->first_name),
             lastName   : new LastName($client->last_name),
             phoneNumber: new PhoneNumber($client->phone_number),
-            addresses  : new Addresses($client->addresses->toArray())
+            addresses  : new Addresses(array_map(function ($address) {
+                return AddressMapper::fromArray($address);
+            }, $client->addresses->toArray()))
         );
     }
 

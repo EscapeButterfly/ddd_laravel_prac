@@ -13,7 +13,7 @@ class Address extends Entity
 {
     public function __construct(
         public ?string             $uuid,
-        public readonly string     $client_uuid,
+        public ?string             $client_uuid,
         public readonly Street     $street,
         public readonly City       $city,
         public readonly State      $state,
@@ -29,6 +29,7 @@ class Address extends Entity
             'uuid'        => $this->uuid,
             'client_uuid' => $this->client_uuid,
             'street'      => $this->street,
+            'city'        => $this->city,
             'state'       => $this->state,
             'country'     => $this->country,
             'postal_code' => $this->postalCode

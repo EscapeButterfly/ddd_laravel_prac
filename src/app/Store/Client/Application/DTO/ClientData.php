@@ -2,6 +2,7 @@
 
 namespace App\Store\Client\Application\DTO;
 
+use App\Store\Client\Application\Mappers\AddressMapper;
 use App\Store\Client\Domain\Model\Entities\Address;
 use App\Store\Client\Domain\Model\ValueObjects\Addresses;
 use App\Store\Client\Domain\Model\ValueObjects\Email;
@@ -16,7 +17,6 @@ class ClientData
 {
     public function __construct(
         public readonly Email       $email,
-        public readonly Password    $password,
         public readonly FirstName   $firstName,
         public readonly LastName    $lastName,
         public readonly PhoneNumber $phoneNumber,
@@ -29,11 +29,12 @@ class ClientData
     {
         return new self(
             email      : new Email($request->input('email')),
-            password   : new Password($request->input('password')),
             firstName  : new FirstName($request->input('first_name')),
             lastName   : new LastName($request->input('last_name')),
             phoneNumber: new PhoneNumber($request->input('phone_number')),
-            addresses  : new Addresses($request->input('addresses'))
+            addresses  : new Addresses(array_map(function ($address) {
+                return AddressMapper::fromArray($address);
+            }, $request->input('addresses')))
         );
     }
 
@@ -48,7 +49,6 @@ class ClientData
     {
         return [
             'email'        => $this->email->value,
-            'password'     => $this->password->value,
             'first_name'   => $this->firstName->value,
             'last_name'    => $this->lastName->value,
             'phone_number' => $this->phoneNumber->value,

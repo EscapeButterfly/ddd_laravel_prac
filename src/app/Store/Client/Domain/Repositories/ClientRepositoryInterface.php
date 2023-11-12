@@ -7,7 +7,9 @@ use App\Store\Client\Domain\Model\Client;
 
 interface ClientRepositoryInterface
 {
-    public function create(ClientData $clientData, ?string $uuid): Client;
+    public function create(ClientData $clientData, string $password, ?string $uuid): Client;
+
+    public function update(ClientData $clientData, ?string $password, string $uuid): Client;
 
     public function getByUuid(string $uuid): Client;
 }

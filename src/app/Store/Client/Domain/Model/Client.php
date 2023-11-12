@@ -17,7 +17,6 @@ class Client extends AggregateRoot
     public function __construct(
         public readonly ?string     $uuid,
         public readonly Email       $email,
-        public readonly Password    $password,
         public readonly FirstName   $firstName,
         public readonly LastName    $lastName,
         public readonly PhoneNumber $phoneNumber,
@@ -31,7 +30,6 @@ class Client extends AggregateRoot
         return [
             'uuid'         => $this->uuid,
             'email'        => $this->email,
-            'password'     => $this->password,
             'first_name'   => $this->firstName,
             'last_name'    => $this->lastName,
             'phone_number' => $this->phoneNumber,
