@@ -33,7 +33,7 @@ class BookData
     {
     }
 
-    public static function fromRequest(Request $request): BookData
+    public static function fromRequest(Request $request): self
     {
         return new self(
             isbn       : new Isbn($request->input('isbn')),
@@ -47,7 +47,7 @@ class BookData
         );
     }
 
-    public static function fromEloquent(Book $book): BookData
+    public static function fromEloquent(Book $book): self
     {
         $authors = $book->authors->map(function ($author) {
             return AuthorMapper::fromEloquent($author);
