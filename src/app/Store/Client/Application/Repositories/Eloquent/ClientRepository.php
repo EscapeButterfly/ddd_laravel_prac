@@ -58,4 +58,11 @@ class ClientRepository implements ClientRepositoryInterface
             ->findOrFail($uuid);
         return ClientMapper::fromEloquent($client);
     }
+
+    public function delete(string $uuid): void
+    {
+        $client = ClientEloquent::query()->findOrFail($uuid);
+        $client->addresses()->delete();
+        $client->delete();
+    }
 }

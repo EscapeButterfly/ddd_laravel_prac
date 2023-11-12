@@ -12,4 +12,6 @@ interface ClientRepositoryInterface
     public function update(ClientData $clientData, ?string $password, string $uuid): Client;
 
     public function getByUuid(string $uuid): Client;
+
+    public function delete(string $uuid): void;
 }

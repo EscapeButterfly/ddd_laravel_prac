@@ -4,6 +4,7 @@ namespace App\Store\Client\Presentation\HTTP\Controllers;
 
 use App\Store\Client\Application\DTO\ClientData;
 use App\Store\Client\Application\UseCases\Commands\CreateClient;
+use App\Store\Client\Application\UseCases\Commands\DeleteClient;
 use App\Store\Client\Application\UseCases\Commands\UpdateClient;
 use App\Store\Client\Application\UseCases\Queries\FindClientByUuid;
 use App\Store\Client\Presentation\HTTP\Requests\CreateClientRequest;
@@ -36,21 +37,23 @@ class ClientController
         }
     }
 
-    public function delete(): JsonResponse
+    public function delete(string $uuid): JsonResponse
     {
-        //TODO
-        return response()->json();
+        try {
+            (new DeleteClient($uuid))->execute();
+            return response()->json();
+        } catch (ModelNotFoundException $exception) {
+            return response()->json($exception->getMessage(), 404);
+        }
     }
 
-    public function getByUuid(): JsonResponse
+    public function getByUuid(string $uuid): JsonResponse
     {
-        //TODO
-        return response()->json();
-    }
-
-    public function search(): JsonResponse
-    {
-        //TODO
-        return response()->json();
+        try {
+            $client = (new FindClientByUuid($uuid))->handle();
+            return response()->json($client->toArray());
+        } catch (ModelNotFoundException $exception) {
+            return response()->json($exception->getMessage(), 404);
+        }
     }
 }
