@@ -3,15 +3,13 @@
 namespace App\Store\Client\Application\DTO;
 
 use App\Store\Client\Application\Mappers\AddressMapper;
-use App\Store\Client\Domain\Model\Entities\Address;
 use App\Store\Client\Domain\Model\ValueObjects\Addresses;
 use App\Store\Client\Domain\Model\ValueObjects\Email;
 use App\Store\Client\Domain\Model\ValueObjects\FirstName;
 use App\Store\Client\Domain\Model\ValueObjects\LastName;
-use App\Store\Client\Domain\Model\ValueObjects\Password;
 use App\Store\Client\Domain\Model\ValueObjects\PhoneNumber;
+use App\Store\Client\Infrastructure\EloquentModels\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class ClientData
 {
@@ -38,10 +36,16 @@ class ClientData
         );
     }
 
-    public static function fromEloquent(): self
+    public static function fromEloquent(Client $client): self
     {
         return new self(
-        //TODO
+            new Email($client->email),
+            new FirstName($client->first_name),
+            new LastName($client->last_name),
+            new PhoneNumber($client->phone_number),
+            new Addresses($client->addresses->map(function ($address) {
+                return AddressMapper::fromEloquent($address);
+            })->toArray())
         );
     }
 

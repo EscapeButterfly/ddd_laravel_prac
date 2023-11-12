@@ -7,7 +7,6 @@ use App\Store\Client\Domain\Model\ValueObjects\Addresses;
 use App\Store\Client\Domain\Model\ValueObjects\Email;
 use App\Store\Client\Domain\Model\ValueObjects\FirstName;
 use App\Store\Client\Domain\Model\ValueObjects\LastName;
-use App\Store\Client\Domain\Model\ValueObjects\Password;
 use App\Store\Client\Domain\Model\ValueObjects\PhoneNumber;
 use App\Store\Client\Infrastructure\EloquentModels\Client as ClientEloquent;
 use Illuminate\Http\Request;
@@ -51,7 +50,15 @@ class ClientMapper
 
     public static function toEloquent(Client $client): ClientEloquent
     {
-        return new ClientEloquent();
-        //TODO
+        $clientEloquent = new ClientEloquent();
+        if ($client->uuid) {
+            $clientEloquent = ClientEloquent::query()->findOrFail($client->uuid);
+        }
+        $clientEloquent->email        = $client->email->value;
+        $clientEloquent->first_name   = $client->firstName->value;
+        $clientEloquent->last_name    = $client->lastName->value;
+        $clientEloquent->phone_number = $client->phoneNumber->value;
+
+        return $clientEloquent;
     }
 }

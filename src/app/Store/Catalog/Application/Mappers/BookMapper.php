@@ -64,12 +64,12 @@ class BookMapper
         if ($book->uuid) {
             $bookEloquent = BookEloquent::query()->findOrFail($book->uuid);
         }
-        $bookEloquent->isbn         = $book->isbn;
-        $bookEloquent->title        = $book->title;
-        $bookEloquent->description  = $book->description;
-        $bookEloquent->pages        = $book->pages;
-        $bookEloquent->publish_date = $book->publishDate;
-        $bookEloquent->quantity     = $book->quantity;
+        $bookEloquent->isbn         = $book->isbn->value;
+        $bookEloquent->title        = $book->title->value;
+        $bookEloquent->description  = $book->description->value;
+        $bookEloquent->pages        = $book->pages->value;
+        $bookEloquent->publish_date = $book->publishDate->value;
+        $bookEloquent->quantity     = $book->quantity->value;
 
         return $bookEloquent;
     }
