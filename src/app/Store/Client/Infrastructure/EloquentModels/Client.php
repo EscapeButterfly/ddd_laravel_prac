@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Hash;
 
 class Client extends Model
 {
@@ -31,6 +32,21 @@ class Client extends Model
     protected $casts = [
         'password' => 'hashed'
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::created(function ($client) {
+            $client->password = Hash::make($client->password);
+        });
+
+        static::updated(function ($client) {
+            if ($client->isDirty('password')) {
+                $client->password = Hash::make($client->password);
+            }
+        });
+    }
 
     public function addresses(): HasMany
     {

@@ -29,7 +29,7 @@ class ClientData
     {
         return new self(
             email      : new Email($request->input('email')),
-            password   : new Password(Hash::make($request->input('password'))),
+            password   : new Password($request->input('password')),
             firstName  : new FirstName($request->input('first_name')),
             lastName   : new LastName($request->input('last_name')),
             phoneNumber: new PhoneNumber($request->input('phone_number')),
