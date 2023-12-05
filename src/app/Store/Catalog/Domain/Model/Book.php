@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace App\Store\Catalog\Domain\Model;
 
@@ -9,6 +8,7 @@ use App\Store\Catalog\Domain\Model\ValueObjects\Description;
 use App\Store\Catalog\Domain\Model\ValueObjects\Genres;
 use App\Store\Catalog\Domain\Model\ValueObjects\Isbn;
 use App\Store\Catalog\Domain\Model\ValueObjects\Pages;
+use App\Store\Catalog\Domain\Model\ValueObjects\Prices;
 use App\Store\Catalog\Domain\Model\ValueObjects\PublishDate;
 use App\Store\Catalog\Domain\Model\ValueObjects\Quantity;
 use App\Store\Catalog\Domain\Model\ValueObjects\Title;
@@ -26,7 +26,8 @@ class Book extends AggregateRoot
         public readonly PublishDate $publishDate,
         public readonly Genres      $genres,
         public readonly Authors     $authors,
-        public readonly Quantity    $quantity
+        public readonly Quantity    $quantity,
+        public readonly Prices      $prices
     )
     {
     }
@@ -42,7 +43,8 @@ class Book extends AggregateRoot
             'publish_date' => $this->publishDate,
             'genres'       => $this->genres,
             'authors'      => $this->authors,
-            'quantity'     => $this->quantity
+            'quantity'     => $this->quantity,
+            'prices'       => $this->prices
         ];
     }
 }

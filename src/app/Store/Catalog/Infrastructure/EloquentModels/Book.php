@@ -5,13 +5,26 @@ namespace App\Store\Catalog\Infrastructure\EloquentModels;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+/**
+ * @property string        $uuid
+ * @property string        $isbn
+ * @property string        $title
+ * @property string        $description
+ * @property int           $pages
+ * @property mixed         $publish_date
+ * @property int           $quantity
+ * @property BelongsToMany $genres
+ * @property BelongsToMany $authors
+ * @property HasMany       $prices
+ */
 class Book extends Model
 {
     use HasUuids;
 
-    protected $table = 'books';
+    protected $table      = 'books';
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
@@ -47,5 +60,10 @@ class Book extends Model
             'book_uuid',
             'genre_uuid'
         )->using(BooksGenres::class);
+    }
+
+    public function prices(): HasMany
+    {
+        return $this->hasMany(Price::class, 'book_uuid', 'uuid');
     }
 }

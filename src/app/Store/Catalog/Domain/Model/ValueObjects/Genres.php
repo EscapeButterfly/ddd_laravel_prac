@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace App\Store\Catalog\Domain\Model\ValueObjects;
 
@@ -24,11 +23,6 @@ final class Genres extends ValueObjectArray
         }
 
         $this->value = $genres;
-    }
-
-    public function toArray(): array
-    {
-        return $this->value;
     }
 
     public function jsonSerialize(): array

@@ -15,7 +15,7 @@ class BookRepository implements BookRepositoryInterface
 
     public function findAll(): array
     {
-        $bookCollection = BookEloquent::query()->with(['authors', 'genres'])->get();
+        $bookCollection = BookEloquent::query()->with(['authors', 'genres', 'prices'])->get();
         return $bookCollection->map(function (BookEloquent $book) {
             return BookMapper::fromEloquent($book);
         })->toArray();
@@ -25,7 +25,7 @@ class BookRepository implements BookRepositoryInterface
     {
         /** @var BookEloquent $book */
         $book = BookEloquent::query()
-            ->with(['genres', 'authors'])
+            ->with(['genres', 'authors', 'prices'])
             ->where('uuid', $uuid)
             ->firstOrFail();
         return BookMapper::fromEloquent($book);
@@ -35,7 +35,7 @@ class BookRepository implements BookRepositoryInterface
     {
         /** @var BookEloquent $book */
         $book = BookEloquent::query()
-            ->with(['genres', 'authors'])
+            ->with(['genres', 'authors', 'prices'])
             ->where('isbn', $isbn)
             ->firstOrFail();
         return BookMapper::fromEloquent($book);
@@ -45,7 +45,7 @@ class BookRepository implements BookRepositoryInterface
     {
         /** @var BookEloquent $book */
         $bookCollection = BookEloquent::query()
-            ->with(['genres', 'authors'])
+            ->with(['genres', 'authors', 'prices'])
             ->where('title', 'LIKE', "%$title%")
             ->get();
         return $bookCollection->map(function ($bookEloquent) {
@@ -78,13 +78,11 @@ class BookRepository implements BookRepositoryInterface
         $book->fill($bookData->toArray());
         $book->save();
 
-        $authorsUuid = array_map(function ($author) {
-            return $author->uuid;
-        }, $bookData->authors->value);
+        $authorsUuid = array_map(fn($author) => $author->uuid, $bookData->authors->value);
+        $genresUuid  = array_map(fn($genre) => $genre->uuid, $bookData->genres->value);
 
-        $genresUuid = array_map(function ($genre) {
-            return $genre->uuid;
-        }, $bookData->genres->value);
+        $priceData = array_map(fn($price) => $price->toArray(), $bookData->prices->value);
+        $book->prices()->createMany($priceData);
 
         $book->authors()->attach($authorsUuid);
         $book->genres()->attach($genresUuid);
@@ -99,13 +97,18 @@ class BookRepository implements BookRepositoryInterface
         $bookEloquent->fill($bookArray);
         $bookEloquent->save();
 
-        $authorsUuid = array_map(function ($author) {
-            return $author->uuid;
-        }, $bookData->authors->value);
+        $authorsUuid = array_map(fn($author) => $author->uuid, $bookData->authors->value);
+        $genresUuid  = array_map(fn($genre) => $genre->uuid, $bookData->genres->value);
 
-        $genresUuid = array_map(function ($genre) {
-            return $genre->uuid;
-        }, $bookData->genres->value);
+        foreach ($bookData->prices->value as $price) {
+            $bookEloquent->prices()->updateOrCreate(
+                ['currency' => $price->currency],
+                [
+                    'price'    => $price->price,
+                    'currency' => $price->currency
+                ]
+            );
+        }
 
         $bookEloquent->authors()->sync($authorsUuid);
         $bookEloquent->genres()->sync($genresUuid);

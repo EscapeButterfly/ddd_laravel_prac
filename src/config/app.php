@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -159,6 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
+        \PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -170,6 +171,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Store\Catalog\Application\Providers\CatalogServiceProvider::class,
         App\Store\Client\Application\Providers\ClientServiceProvider::class,
+        App\Store\Order\Application\Providers\OrderServiceProvider::class,
+        App\Store\Auth\Application\Providers\AuthServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -23,11 +23,6 @@ final class Authors extends ValueObjectArray
         $this->value = $authors;
     }
 
-    public function toArray(): array
-    {
-        return $this->value;
-    }
-
     public function jsonSerialize(): array
     {
         return $this->value;

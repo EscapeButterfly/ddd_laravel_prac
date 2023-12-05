@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->foreignUuid('client_uuid')->constrained('clients', 'uuid', 'order_client');
+            $table->foreignUuid('client_uuid')
+                ->constrained('clients', 'uuid', 'order_client');
+            $table->foreignUuid('address_uuid')
+                ->nullable()
+                ->constrained('addresses', 'uuid', 'order_address');
             $table->string('status');
-            $table->string('payment_type');
-            $table->string('delivery');
-            $table->string('delivery_address')->nullable();
-            $table->string('delivery_contact')->nullable();
             $table->timestamps();
         });
     }

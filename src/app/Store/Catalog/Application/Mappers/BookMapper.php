@@ -8,6 +8,7 @@ use App\Store\Catalog\Domain\Model\ValueObjects\Description;
 use App\Store\Catalog\Domain\Model\ValueObjects\Genres;
 use App\Store\Catalog\Domain\Model\ValueObjects\Isbn;
 use App\Store\Catalog\Domain\Model\ValueObjects\Pages;
+use App\Store\Catalog\Domain\Model\ValueObjects\Prices;
 use App\Store\Catalog\Domain\Model\ValueObjects\PublishDate;
 use App\Store\Catalog\Domain\Model\ValueObjects\Quantity;
 use App\Store\Catalog\Domain\Model\ValueObjects\Title;
@@ -28,7 +29,8 @@ class BookMapper
             publishDate: new PublishDate(Carbon::parse($request->input('publish_date'))->toDateTimeImmutable()),
             genres     : new Genres($request->input('genres')),
             authors    : new Authors($request->input('authors')),
-            quantity   : new Quantity($request->input('quantity'))
+            quantity   : new Quantity($request->input('quantity')),
+            prices     : new Prices($request->input('prices'))
         );
     }
 
@@ -47,7 +49,10 @@ class BookMapper
             authors    : new Authors($book->authors->map(function ($author) {
                 return AuthorMapper::fromEloquent($author);
             })->toArray()),
-            quantity   : new Quantity($book->quantity)
+            quantity   : new Quantity($book->quantity),
+            prices     : new Prices($book->prices->map(function ($price) {
+                return PriceMapper::fromEloquent($price);
+            })->toArray())
         );
     }
 

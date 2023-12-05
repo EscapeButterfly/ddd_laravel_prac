@@ -2,13 +2,12 @@
 
 namespace App\Store\Client\Infrastructure\EloquentModels;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Hash;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
-class Client extends Model
+class Client extends User implements JWTSubject
 {
     use HasUuids;
 
@@ -39,4 +38,13 @@ class Client extends Model
     }
 
 
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(): array
+    {
+        return [];
+    }
 }

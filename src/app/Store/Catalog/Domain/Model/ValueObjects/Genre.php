@@ -4,7 +4,7 @@ namespace App\Store\Catalog\Domain\Model\ValueObjects;
 
 use App\Store\Common\Domain\ValueObject;
 
-class Genre extends ValueObject
+final class Genre extends ValueObject
 {
     public readonly string $value;
 
