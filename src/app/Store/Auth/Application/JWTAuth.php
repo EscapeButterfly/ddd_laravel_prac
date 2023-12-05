@@ -8,6 +8,7 @@ use App\Store\Client\Domain\Model\Client;
 use App\Store\Client\Infrastructure\EloquentModels\Client as ClientEloquent;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 
 class JWTAuth implements AuthInterface
 {
@@ -22,23 +23,41 @@ class JWTAuth implements AuthInterface
             ->where('email', $credentials['email'])
             ->firstOrFail();
         if (!$token = auth('clients')->attempt($credentials)) {
-            throw new AuthenticationException();
+            throw new AuthenticationException('Given wrong credentials.');
         }
         return $token;
     }
 
+    /**
+     * @return string
+     * @throws AuthenticationException
+     */
     public function refresh(): string
     {
-        return \PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth::refresh();
+        try {
+            $token = auth('clients')->refresh();
+        } catch (JWTException $exception) {
+            throw new AuthenticationException($exception->getMessage());
+        }
+        return $token;
     }
 
     public function logout(): void
     {
-        auth()->logout();
+        auth('clients')->logout();
     }
 
+    /**
+     * @return Client
+     * @throws AuthenticationException
+     */
     public function me(): Client
     {
-        return ClientMapper::fromEloquent(auth('clients')->user());
+        $client = auth('clients')->user();
+        if ($client) {
+            return ClientMapper::fromEloquent($client);
+        } else {
+            throw new AuthenticationException('Unauthenticated.');
+        }
     }
 }
