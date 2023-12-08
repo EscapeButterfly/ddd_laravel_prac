@@ -22,7 +22,10 @@ class CreateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'client_uuid'   => 'required|string',
+            'address_uuid'  => 'required|string',
+            'order_items'   => 'required|array',
+            'order_items.*' => 'required|string'
         ];
     }
 }

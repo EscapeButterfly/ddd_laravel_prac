@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignUuid('address_uuid')
                 ->nullable()
                 ->constrained('addresses', 'uuid', 'order_address');
-            $table->string('status');
+            $table->string('status')->default(\App\Store\Order\Domain\Model\Enums\Status::CREATED);
             $table->timestamps();
         });
     }

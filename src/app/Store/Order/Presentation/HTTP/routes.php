@@ -6,4 +6,5 @@ Route::group([
     'prefix' => 'orders'
 ], function () {
     Route::put('create', [OrderController::class, 'create']);
+    Route::get('{uuid}', [OrderController::class, 'get']);
 });

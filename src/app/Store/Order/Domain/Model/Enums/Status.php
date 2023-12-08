@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Store\Order\Domain\Enums;
+namespace App\Store\Order\Domain\Model\Enums;
 
 enum Status: string
 {

@@ -7,7 +7,6 @@ use App\Store\Catalog\Application\Mappers\GenreMapper;
 use App\Store\Catalog\Application\Mappers\PriceMapper;
 use App\Store\Catalog\Application\UseCases\Queries\GetAuthorsByUuid;
 use App\Store\Catalog\Application\UseCases\Queries\GetGenresByUuid;
-use App\Store\Catalog\Domain\Model\Entities\Price;
 use App\Store\Catalog\Domain\Model\ValueObjects\Authors;
 use App\Store\Catalog\Domain\Model\ValueObjects\Description;
 use App\Store\Catalog\Domain\Model\ValueObjects\Genres;
