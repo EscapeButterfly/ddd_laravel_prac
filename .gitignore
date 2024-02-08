@@ -1,3 +1,4 @@
 mysql
+rabbitmq_data
 .idea
 src/_ide_helper.php
